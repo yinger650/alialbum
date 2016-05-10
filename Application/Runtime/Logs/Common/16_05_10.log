@@ -1,0 +1,12 @@
+[ 2016-05-10T13:44:41+08:00 ] 127.0.0.1 /aliphoto/album
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000007s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000217s ]
+ERR: 无法加载模块:Album
+
+[ 2016-05-10T13:44:48+08:00 ] 127.0.0.1 /aliphoto/index/album
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000011s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000315s ]
+ERR: 无法加载模块:Index
+
