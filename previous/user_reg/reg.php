@@ -1,36 +1,36 @@
 <?php
 if(!isset($_POST['submit'])){
-	exit('·Ç·¨·ÃÎÊ!');
+	exit('ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½!');
 }
 $username = $_POST['username'];
 $password = $_POST['password'];
 $email = $_POST['email'];
-//×¢²áÐÅÏ¢ÅÐ¶Ï
+//×¢ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ð¶ï¿½
 if(!preg_match('/^[\w\x80-\xff]{3,15}$/', $username)){
-	exit('´íÎó£ºÓÃ»§Ãû²»·ûºÏ¹æ¶¨¡£<a href="javascript:history.back(-1);">·µ»Ø</a>');
+	exit('ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹æ¶¨ï¿½ï¿½<a href="javascript:history.back(-1);">ï¿½ï¿½ï¿½ï¿½</a>');
 }
 if(strlen($password) < 6){
-	exit('´íÎó£ºÃÜÂë³¤¶È²»·ûºÏ¹æ¶¨¡£<a href="javascript:history.back(-1);">·µ»Ø</a>');
+	exit('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë³¤ï¿½È²ï¿½ï¿½ï¿½ï¿½Ï¹æ¶¨ï¿½ï¿½<a href="javascript:history.back(-1);">ï¿½ï¿½ï¿½ï¿½</a>');
 }
 if(!preg_match('/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/', $email)){
-	exit('´íÎó£ºµç×ÓÓÊÏä¸ñÊ½´íÎó¡£<a href="javascript:history.back(-1);">·µ»Ø</a>');
+	exit('ï¿½ï¿½ï¿½ó£ºµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½<a href="javascript:history.back(-1);">ï¿½ï¿½ï¿½ï¿½</a>');
 }
-//°üº¬Êý¾Ý¿âÁ¬½ÓÎÄ¼þ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 include('conn.php');
-//¼ì²âÓÃ»§ÃûÊÇ·ñÒÑ¾­´æÔÚ
+//ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
 $check_query = mysql_query("select uid from user where username='$username' limit 1");
 if(mysql_fetch_array($check_query)){
-	echo '´íÎó£ºÓÃ»§Ãû ',$username,' ÒÑ´æÔÚ¡£<a href="javascript:history.back(-1);">·µ»Ø</a>';
+	echo 'ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ ',$username,' ï¿½Ñ´ï¿½ï¿½Ú¡ï¿½<a href="javascript:history.back(-1);">ï¿½ï¿½ï¿½ï¿½</a>';
 	exit;
 }
-//Ð´ÈëÊý¾Ý
+//Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 $password = MD5($password);
 $regdate = time();
 $sql = "INSERT INTO user(username,password,email,regdate)VALUES('$username','$password','$email',$regdate)";
 if(mysql_query($sql,$conn)){
-	exit('ÓÃ»§×¢²á³É¹¦£¡µã»÷´Ë´¦ <a href="login.html">µÇÂ¼</a>');
+	exit('ï¿½Ã»ï¿½×¢ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë´ï¿½ <a href="index.html">ï¿½ï¿½Â¼</a>');
 } else {
-	echo '±§Ç¸£¡Ìí¼ÓÊý¾ÝÊ§°Ü£º',mysql_error(),'<br />';
-	echo 'µã»÷´Ë´¦ <a href="javascript:history.back(-1);">·µ»Ø</a> ÖØÊÔ';
+	echo 'ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½',mysql_error(),'<br />';
+	echo 'ï¿½ï¿½ï¿½ï¿½Ë´ï¿½ <a href="javascript:history.back(-1);">ï¿½ï¿½ï¿½ï¿½</a> ï¿½ï¿½ï¿½ï¿½';
 }
 ?>
