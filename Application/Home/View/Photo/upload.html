@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Upload</title>
+    <script type="text/javascript" src="__STATIC__/js/jquery-2.2.3.min.js"></script>
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/uploadstyle.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
@@ -10,8 +11,16 @@
 
 <h2>Upload image</h2>
 <br>
+
 <form name=theform>
-    <input type="radio" name="myradio" value="local_name" checked=true/> 上传文件名字保持本地文件名字
+
+    <label>Album</label>
+    <select id="album">
+        <volist name="album" id="vo">
+            <option value="{$vo.title}">{$vo.title}</option>
+        </volist>
+    </select>
+    <input type="radio" name="myradio" value="local_name" checked=true /> 上传文件名字保持本地文件名字
     <input type="radio" name="myradio" value="random_name" /> 上传文件名字是随机文件名, 后缀保留
 </form>
 

@@ -5,6 +5,7 @@ var accessid = '',
     policyBase64 = '',
     signature = '',
     callbackbody = '',
+    ocallbackbody = '',
     filename = '',
     key = '',
     expire = 0,
@@ -63,6 +64,7 @@ function get_signature()
         signature = obj['signature'];
         expire = parseInt(obj['expire']);
         callbackbody = obj['callback'];
+        ocallbackbody = callbackbody;
         key = obj['dir'];
         return true;
     }
@@ -117,6 +119,20 @@ function get_uploaded_object_name(filename)
     }
 }
 
+function set_custom_info(id) {
+    var albumSelect = document.getElementById('album');
+    var album = albumSelect.options[albumSelect.selectedIndex].value;
+    var descript = $("#"+id+" textarea").val();
+    var pub = $("#"+id+" input:checkbox").is(':checked');
+    callbackbody = window.atob(ocallbackbody);
+    callbackbody = callbackbody.replace("${album}", album);
+    callbackbody = callbackbody.replace("${description}", descript);
+    callbackbody = callbackbody.replace("${public}", pub);
+    console.log(callbackbody);
+    callbackbody = window.btoa(callbackbody);
+
+}
+
 function set_upload_param(up, filename, ret)
 {
     if (ret == false)
@@ -166,14 +182,15 @@ var uploader = new plupload.Uploader({
 		PostInit: function() {
 			document.getElementById('ossfile').innerHTML = '';
 			document.getElementById('postfiles').onclick = function() {
-            set_upload_param(uploader, '', false);
-            return false;
+                set_upload_param(uploader, '', false);
+                return false;
 			};
 		},
 
 		FilesAdded: function(up, files) {
 			plupload.each(files, function(file) {
-				document.getElementById('ossfile').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ')<b></b>'
+				document.getElementById('ossfile').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size)
+                    + ')<input type="checkbox">public</form><br /><textarea></textarea><b></b>'
 				+'<div class="progress"><div class="progress-bar" style="width: 0%"></div></div>'
 				+'</div>';
 			});
@@ -181,6 +198,7 @@ var uploader = new plupload.Uploader({
 
 		BeforeUpload: function(up, file) {
             check_object_radio();
+            set_custom_info(file.id);
             set_upload_param(up, file.name, true);
         },
 
@@ -227,5 +245,4 @@ var uploader = new plupload.Uploader({
 });
 
 
-console.log(geturl);
 uploader.init();

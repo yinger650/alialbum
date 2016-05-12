@@ -23,6 +23,9 @@ class PhotoController extends Controller
     */
 
     public function upload() {
+        $album = M('Album');
+        $list = $album->where('owner = '.session('user')['uid'])->select();
+        $this->assign('album',$list);
         $this->display();
     }
 
@@ -76,8 +79,22 @@ class PhotoController extends Controller
             $itemData = explode("=",$item);
             $callbackData[$itemData[0]] = $itemData[1];
         }
+        $photo = M('Photo');
+        $album = M('Album');
+        $condition['owner'] = $callbackData['uploader'];
+        $condition['title'] = $callbackData['album'];
+        $aid = $album->where($condition)->find();
 
-    // 5.拼接待签名字符串
+        $data['oss_url'] = $callbackData['filename'];
+        $data['uploader'] = $callbackData['uploader'];
+        $data['time'] = date('Y-m-d H:i:s',NOW_TIME);
+        $data['album'] = $aid['aid'];
+        $data['description'] = $callbackData['description'];
+        $data['public'] = ($callbackData['public']  == "true");
+        $status = $photo->data($data)->add();
+
+
+            // 5.拼接待签名字符串
         $authStr = '';
         $path = $_SERVER['REQUEST_URI'];
         $pos = strpos($path, '?');
@@ -95,9 +112,10 @@ class PhotoController extends Controller
         if ($ok == 1)
         {
             header("Content-Type: application/json");
-            $data = array("Status"=>"OK",
-                          "data"=>$body,
+            $data = array("Status"=>$status,
+                          "albumID"=>$aid['aid'],
                           "file" => $callbackData['filename'],
+                          "public" => $callbackData['public'],
                 );
             echo json_encode($data);
         }
@@ -124,9 +142,9 @@ class PhotoController extends Controller
         $host = 'https://alialbum.oss-cn-qingdao.aliyuncs.com';
         $callbackUrl = U('callback','','',true);
         $callback_param = array('callbackUrl'=>$callbackUrl,
-            'callbackBody'=>'filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}',
-            'callbackBodyType'=>"application/x-www-form-urlencoded",
-            'uploadUser'=>session('user')['uid']);
+            'callbackBody'=>'filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}&uploader='
+                            .session('user')['uid'].'&album=${album}&description=${description}&public=${public}',
+            'callbackBodyType'=>"application/x-www-form-urlencoded");
         $callback_string = json_encode($callback_param);
 
         $base64_callback_body = base64_encode($callback_string);
