@@ -9,15 +9,27 @@
     <a href="{:U('Photo/create')}">create new album</a>
     <a href="{:U('User/logout')}">logout</a>
     <div>
-        Public Album here
+        Public Album here<br />
+        <volist name="publicPhoto" id="pp">
+            <img src="http://img-ali.yinger650.com/{$pp.oss_url}" /><br />
+        </volist>
     </div>
     <div>
         Private Album
-        <select>
+        <form action="{:U('Photo/album')}" method="post">
+        <select name="album">
             <volist name="list" id="vo">
                 <option value="{$vo.title}">{$vo.title}</option>
             </volist>
         </select>
+            <input type="submit" value="Change album " name="submit"><br>
+        </form>
     </div>
+    <div>
+        <volist name="privatePhoto" id="vp">
+            <img src="http://img-ali.yinger650.com/{$vp.oss_url}" /><br />
+        </volist>
+    </div>
+
 </body>
 </html>
