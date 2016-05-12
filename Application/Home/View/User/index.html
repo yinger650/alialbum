@@ -12,7 +12,7 @@
 <body>
 <div id="login">
     <h2>User Login</h2>
-    <form action="{:U('User/login')}" method="post">
+    <form action="{:U('User/login'),'','',true}" method="post">
         <label>UserName  :</label>
         <input type="text" name="username" id="name" placeholder="username"><br><br>
         <label>Password  :</label>

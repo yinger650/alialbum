@@ -14,6 +14,8 @@ class UserController extends Controller {
             //$this->success('You have login before', U('Photo/album'));
             echo "<a href='" . U('Photo/album') . "''>click</a>";
         } else {
+
+
             $this->display();
         }
     }
