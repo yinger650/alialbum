@@ -10,9 +10,10 @@ use Think\Controller;
 class UserController extends Controller {
     public function index(){
         if (is_login()) {
-            echo "Hello " . session('user')['username'] . ".";
+            //echo "Hello " . session('user')['username'] . ".";
             //$this->success('You have login before', U('Photo/album'));
-            echo "<a href='" . U('Photo/album') . "''>click</a>";
+            //echo "<a href='" . U('Photo/album') . "''>click</a>";
+            $this->redirect('Photo/album');
         } else {
 
             $this->display('Index/header');
@@ -45,7 +46,9 @@ class UserController extends Controller {
             }
 
         } else {
+            $this->display('Index/header');
             $this->display();
+            $this->display('Index/footer');
         }
     }
 
@@ -66,7 +69,7 @@ class UserController extends Controller {
                         'last_login_time' => NOW_TIME,
                     );
                     session('user', $auth);
-                    $this->success('Login sucessfully.');
+                    $this->success('Login sucessfully.','index');
                 } else {
                     //echo $userItem['password'];
                     $this->error('Wrong password');
