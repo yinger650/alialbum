@@ -15,8 +15,10 @@ class UserController extends Controller {
             echo "<a href='" . U('Photo/album') . "''>click</a>";
         } else {
 
-
+            $this->display('Index/header');
             $this->display();
+            $this->display('Index/footer');
+
         }
     }
 
