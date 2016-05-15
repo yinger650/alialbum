@@ -26,7 +26,9 @@ class PhotoController extends Controller
         $album = M('Album');
         $list = $album->where('owner = '.session('user')['uid'])->select();
         $this->assign('album',$list);
+        $this->display('Photo/header');
         $this->display();
+        $this->display('Photo/footer');
     }
 
     public function callback(){
@@ -185,10 +187,12 @@ class PhotoController extends Controller
 
     }
 
+
     public function album() {
         $album = M('Album');
         $list = $album->where('owner = '.session('user')['uid'])->select();
         $this->assign('list',$list);
+        $this->assign('navlist',$list);
         $photo = M('Photo');
         $publicPhoto = $photo->where('public = true')->select();
         $this->assign('publicPhoto',$publicPhoto);
@@ -204,7 +208,9 @@ class PhotoController extends Controller
                 $this->assign('privatePhoto',$privatePhoto);
             }
         }
+        $this->display('Photo/header');
         $this->display();
+        $this->display('Photo/footer');
     }
 
     public function create(){
@@ -220,7 +226,9 @@ class PhotoController extends Controller
                 $this->error('Album title existed.');
             }
         } else {
+            $this->display('Photo/header');
             $this->display();
+            $this->display('Photo/footer');
         }
     }
 

@@ -189,10 +189,19 @@ var uploader = new plupload.Uploader({
 
 		FilesAdded: function(up, files) {
 			plupload.each(files, function(file) {
-				document.getElementById('ossfile').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size)
-                    + ')<input type="checkbox">public</form><br /><textarea></textarea><b></b>'
-				+'<div class="progress"><div class="progress-bar" style="width: 0%"></div></div>'
-				+'</div>';
+                var fheader = '<div id="' + file.id + '">';
+                var ffilename = '<h3>' + file.name + ' (' + plupload.formatSize(file.size) + ')</h3>';
+                var fpublic = '<input type="checkbox" name="public" id="public_' + file.id+ '">'
+                            + '<label for="public_' + file.id + '">Public</label>';
+                var ftext = '<textarea></textarea>';
+                var fmessage = '<b></b>';
+                var fprogress = '<div class="progress"><div class="progress-bar" style="width: 0%"></div></div>';
+                var ffooter = '</div>';
+				//document.getElementById('ossfile').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size)
+                //    + ')<input type="checkbox" name="public"><label>Public</label></form><br /><textarea></textarea><b></b>'
+				//+'<div class="progress"><div class="progress-bar" style="width: 0%"></div></div>'
+				//+'</div>';
+                document.getElementById('ossfile').innerHTML += fheader + ffilename + fpublic + ftext + fmessage + fprogress + ffooter;
 			});
 		},
 
@@ -206,19 +215,23 @@ var uploader = new plupload.Uploader({
 			var d = document.getElementById(file.id);
 			d.getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
             var prog = d.getElementsByTagName('div')[0];
+            var progLength = prog.offsetWidth;
 			var progBar = prog.getElementsByTagName('div')[0]
-			progBar.style.width= 2*file.percent+'px';
+			progBar.style.width= progLength/100*file.percent+'px';
 			progBar.setAttribute('aria-valuenow', file.percent);
 		},
 
 		FileUploaded: function(up, file, info) {
             if (info.status == 200)
             {
-                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = 'upload to oss success, object name:' + get_uploaded_object_name(file.name) + ' 回调服务器返回的内容是:' + info.response;
+                var imgUrl = 'http://img-ali.yinger650.com/' + get_uploaded_object_name(file.name);
+                var recallResponse = info.response;
+                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = 'Upload to OSS success, image url is <br> '
+                    + '<a href="' + imgUrl + '">' + imgUrl + '</a>';
             }
             else if (info.status == 203)
             {
-                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '上传到OSS成功，但是oss访问用户设置的上传回调服务器失败，失败原因是:' + info.response;
+                document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = 'Upload to OSS success, but failed to visit recall server : <br>' + info.response;
             }
             else
             {
