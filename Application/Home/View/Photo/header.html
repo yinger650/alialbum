@@ -15,24 +15,23 @@
 
     <!-- Header -->
     <header id="header">
-        <h1 id="logo"><a href="{:U('Index/index')}">MinPhoto</a></h1>
+        <h1><a href="{:U('Index/index')}">MinPhoto</a></h1>
         <nav id="nav">
             <ul>
                 <li><a href="{:U('Photo/upload')}">Upload</a></li>
                 <li>
                     <a href="{:U('Photo/album')}">Album</a>
                     <ul>
-                        <li><a href="{:U('Photo/album')}">Public Album</a></li>
+                        <li><a href="{:U('Photo/album','','')}/public">Public Album</a></li>
                         <li>
                             <a href="#">Private Album</a>
                             <ul>
                                 <volist name="navlist" id="vo">
-                                    <li><a href="#">{$vo.title}</a></li>
+                                    <li><a href="{:U('Photo/album','','')}/private/{$vo.title}">{$vo.title}</a></li>
                                 </volist>
 
                             </ul>
                         </li>
-
                         <li><a href="{:U('Photo/create')}">Create New Album</a></li>
                     </ul>
                 </li>
@@ -41,5 +40,6 @@
             </ul>
         </nav>
     </header>
+
     <div id="main" class="wrapper style1">
         <div class="container">

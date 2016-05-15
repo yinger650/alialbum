@@ -190,29 +190,45 @@ class PhotoController extends Controller
 
 
     public function album() {
-        $album = M('Album');
-        $list = $album->where('owner = '.session('user')['uid'])->select();
-        $this->assign('album',$list);
-        $this->assign('navlist',$list);
-        $photo = M('Photo');
-        $publicPhoto = $photo->where('public = true')->select();
-        $this->assign('publicPhoto',$publicPhoto);
-        if (IS_POST) {
-            $albumName = I('post.album');
+        if (is_login()) {
+            $albumName = urldecode(I('get.private'));
+            //echo $albumName;
+            $album = M('Album');
             $condition['owner'] = session('user')['uid'];
             $condition['title'] = $albumName;
             $aid = $album->where($condition)->find();
             $aid = $aid['aid'];
+            $findPhoto = false;
             if ($aid != NULL) {
                 $photo = M('Photo');
                 $privatePhoto = $photo->where('album = '.$aid)->select();
-                $this->assign('privatePhoto',$privatePhoto);
+                $this->assign('photo',$privatePhoto);
+                if (count($privatePhoto)>0) $findPhoto = true;
+            }  else {
+                $photo = M('Photo');
+                $publicPhoto = $photo->where('public = true')->select();
+                $this->assign('photo',$publicPhoto);
+                if (count($publicPhoto)>0) $findPhoto = true;
             }
+            $album = M('Album');
+            $list = $album->where('owner = '.session('user')['uid'])->select();
+            $this->assign('album',$list);
+            $this->assign('navlist',$list);
+
+            if ($findPhoto) $this->display('Photo/album'); else {
+                $this->display('Photo/header');
+                $this->display('Photo/empty');
+                $this->display('Photo/footer');
+            }
+
+        } else {
+            $this->redirect('User/index');
         }
+
         //$this->display('Photo/header');
         //$this->display();
         //$this->display('Photo/footer');
-        $this->display('Photo/album');
+
     }
 
     public function create(){
