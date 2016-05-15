@@ -1,24 +1,89 @@
+<!DOCTYPE HTML>
+<!--
+	Multiverse by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>MinPhoto - Store Your Life Faster.</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="__STATIC__/css/theme.css" />
 
-    <div>
-        Public Album here<br />
+    <link rel="stylesheet" href="__STATIC__/css/photo.css" />
+
+</head>
+<body>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="{:U('Index/index')}">MinPhoto</a></h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="{:U('Photo/upload')}">Upload</a></li>
+                <li>
+                    <a href="{:U('Photo/album')}">Album</a>
+                    <ul>
+                        <li><a href="{:U('Photo/album')}">Public Album</a></li>
+                        <li>
+                            <a href="#">Private Album</a>
+                            <ul>
+                                <volist name="navlist" id="vo">
+                                    <li><a href="#">{$vo.title}</a></li>
+                                </volist>
+
+                            </ul>
+                        </li>
+                        <li><a href="{:U('Photo/create')}">Create New Album</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Admin</a></li>
+                <li><a href="{:U('User/logout')}" class="button">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <div id="main">
+
         <volist name="publicPhoto" id="pp">
-            <img src="http://img-ali.yinger650.com/{$pp.oss_url}" /><br />
-        </volist>
-    </div>
-    <div>
-        Private Album
-        <form action="{:U('Photo/album')}" method="post">
-        <select name="album">
-            <volist name="list" id="vo">
-                <option value="{$vo.title}">{$vo.title}</option>
-            </volist>
-        </select>
-            <input type="submit" value="Change album " name="submit"><br>
-        </form>
-    </div>
-    <div>
-        <volist name="privatePhoto" id="vp">
-            <img src="http://img-ali.yinger650.com/{$vp.oss_url}" /><br />
+            <article class="thumb">
+                <a href="http://img-ali.yinger650.com/{$pp.oss_url}" class="image"><img src="http://imgproc.yinger650.com/{$pp.oss_url}@!thumb" alt="" /></a>
+                <h2>{$pp.description}</h2>
+            </article>
         </volist>
     </div>
 
+
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://www.facebook.com/yinger650" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+            <li><a href="https://www.linkedin.com/in/min-wang-2209aa77" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+            <li><a href="https://github.com/yinger650" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; Yinger650 All rights reserved.</li>
+            <li>ICP证:沪ICP备16013021号-1</li>
+            <li>Page Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </footer>
+
+
+</div>
+
+<!-- Scripts -->
+<script src="__STATIC__/js/jquery-2.2.3.min.js"></script>
+<script src="__STATIC__/js/jquery.scrolly.min.js"></script>
+<script src="__STATIC__/js/jquery.poptrox.min.js"></script>
+<script src="__STATIC__/js/jquery.dropotron.min.js"></script>
+<script src="__STATIC__/js/skel.min.js"></script>
+<script src="__STATIC__/js/util.js"></script>
+<script src="__STATIC__/js/photo.js"></script>
+<script src="__STATIC__/js/theme-func.js"></script>
+
+</body>
+</html>
